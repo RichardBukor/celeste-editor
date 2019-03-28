@@ -26,21 +26,15 @@ CONFIG += c++11
 CONFIG += console
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    cart.cpp \
     src/cart.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    cart.h \
     src/cart.h \
     src/mainwindow.h
 
 FORMS += \
-        mainwindow.ui \
     gui/mainwindow.ui
 
 # Default rules for deployment.

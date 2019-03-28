@@ -36,7 +36,7 @@ Cart::Cart(QString cartPath) {
 Cart::Cart() {}
 
 QImage Cart::getMapImage() {
-    QImage mapImage = QImage(128*16, 32*    , QImage::Format_RGBA8888);
+    QImage mapImage = QImage(128*8, 32*8, QImage::Format_RGBA8888);
 
 
 
@@ -63,13 +63,12 @@ QImage Cart::getMapImage() {
 
         QImage sprite = spritesImage[sprite_id];
 
-        // if curx or cury == 0 they will be -1 (bad)
-        QPoint destPos = QPoint(curX-1, curY-1);
+        QPoint destPos = QPoint(curX, curY);
         QPainter painter(&mapImage);
         painter.drawImage(destPos, sprite);
         painter.end();
 
-        if ((curX) >= 128*8) {
+        if ((curX) >= (128*8)) {
             curY += 8;
             curX = 0;
         } else {
