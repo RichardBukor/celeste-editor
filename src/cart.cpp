@@ -67,7 +67,7 @@ QImage Cart::getMapImage() {
         painter.drawImage(destPos, sprite);
         painter.end();
 
-        if ((curX) >= (127)) {
+        if (curX >= 127) {
             curY += 1;
             curX = 0;
         } else {
