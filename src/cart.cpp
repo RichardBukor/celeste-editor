@@ -37,24 +37,27 @@ Cart::Cart() {}
 
 QImage Cart::getMapImage() {
 
-    QImage mapImage = QImage(128*8, 32*8, QImage::Format_RGBA8888);
+    QImage mapImage = QImage(128*8, 64*8, QImage::Format_RGBA8888);
 
     mapImage.fill(Qt::black);
 
     int sprite_id = 0;
     int curY = 0;
     int curX = 0;
-    qInfo("%s", raw_data["__map__"].c_str());
 
-
-
-    // sorry too lazy to make this look nice
+    // sorry too lazy to make this look nice (it's just removing the new lines)
     raw_data["__map__"].erase(std::remove(raw_data["__map__"].begin(), raw_data["__map__"].end(), '\n'), raw_data["__map__"].end());
+    raw_data["gfx_map"].erase(std::remove(raw_data["gfx_map"].begin(), raw_data["gfx_map"].end(), '\n'), raw_data["gfx_map"].end());
+
+    std::string full_map;
 
     qInfo("%s", raw_data["__map__"].c_str());
 
-    //  TODO: actually make this work
-    // probably just better to rewrite this entirely
+    for (unsigned int i = 0; i < raw_data["gfx_map"].length(); i+=2) {
+        raw_data["__map__"].append(std::string() + raw_data["gfx_map"][i+1] + raw_data["gfx_map"][i]);
+    }
+
+    qInfo("%s", raw_data["__map__"].c_str());
 
     for (unsigned int i = 0; i < raw_data["__map__"].length(); i+=2) {
         std::string hex_string = std::string() + raw_data["__map__"][i] + raw_data["__map__"][i + 1];
