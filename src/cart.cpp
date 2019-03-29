@@ -49,13 +49,9 @@ QImage Cart::getMapImage() {
 
     std::string full_map;
 
-    qInfo("%s", raw_data["__map__"].c_str());
-
     for (unsigned int i = 0; i < raw_data["gfx_map"].length(); i+=2) {
         raw_data["__map__"].append(std::string() + raw_data["gfx_map"][i+1] + raw_data["gfx_map"][i]);
     }
-
-    qInfo("%s", raw_data["__map__"].c_str());
 
     for (unsigned int i = 0; i < raw_data["__map__"].length(); i+=2) {
         std::string hex_string = std::string() + raw_data["__map__"][i] + raw_data["__map__"][i + 1];
@@ -89,7 +85,7 @@ void Cart::getAllSprites(QImage spritesheet) {
 
     std::vector<QImage> sprites;
 
-    for (int i = 0; i < raw_data["__gfx__"].size(); i+=8) {
+    for (unsigned int i = 0; i < raw_data["__gfx__"].size(); i+=8) {
 
         curX = i % 128;
 
