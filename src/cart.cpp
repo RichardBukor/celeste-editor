@@ -25,10 +25,11 @@ void Cart::loadFile(QString cartPath) {
         }
     }
 
-    unsigned long gfx_size = raw_data["__gfx__"].size() - 1;
+    unsigned long gfx_size = raw_data["__gfx__"].size();
 
-    raw_data["gfx_map"] = raw_data["__gfx__"].substr(gfx_size/2, gfx_size);
-    raw_data["__gfx__"] = raw_data["__gfx__"].substr(0, (gfx_size/2));
+    raw_data["gfx_map"] = raw_data["__gfx__"];
+    raw_data["gfx_map"].erase(0, gfx_size/2);
+    raw_data["__gfx__"].erase(gfx_size/2, gfx_size);
 
 }
 
