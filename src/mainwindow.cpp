@@ -26,16 +26,10 @@ void MainWindow::loadCart() {
 
         QString fileName = fileDialog.selectedFiles().at(0);
 
-        //celesteCart = Cart(fileName);
         celesteCart.loadFile(fileName);
-        QImage spritesheet = celesteCart.getSpritesheetImage();
-        celesteCart.getAllSprites(spritesheet);
         std::vector<QImage> sprites = celesteCart.spritesImage;
 
         QImage map = celesteCart.getMapImage();
-
-
-        //QImage image = sprites[1].scaled(80, 80);
 
         // testing map image
         QPixmap pixmap = QPixmap();

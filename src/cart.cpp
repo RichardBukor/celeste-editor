@@ -31,13 +31,8 @@ void Cart::loadFile(QString cartPath) {
     raw_data["gfx_map"].erase(0, gfx_size/2);
     raw_data["__gfx__"].erase(gfx_size/2, gfx_size);
 
-}
-
-QImage Cart::getMapImage() {
-
-    QImage mapImage = QImage(128*8, 64*8, QImage::Format_RGBA8888);
-
-    mapImage.fill(Qt::black);
+    QImage spritesheet = getSpritesheetImage();
+    getAllSprites(spritesheet);
 
     unsigned long sprite_id = 0;
     int curY = 0;
@@ -46,8 +41,6 @@ QImage Cart::getMapImage() {
     // sorry too lazy to make this look nice (it's just removing the new lines)
     raw_data["__map__"].erase(std::remove(raw_data["__map__"].begin(), raw_data["__map__"].end(), '\n'), raw_data["__map__"].end());
     raw_data["gfx_map"].erase(std::remove(raw_data["gfx_map"].begin(), raw_data["gfx_map"].end(), '\n'), raw_data["gfx_map"].end());
-
-    std::string full_map;
 
     for (unsigned int i = 0; i < raw_data["gfx_map"].length(); i+=2) {
         raw_data["__map__"].append(std::string() + raw_data["gfx_map"][i+1] + raw_data["gfx_map"][i]);
@@ -58,12 +51,7 @@ QImage Cart::getMapImage() {
 
         sprite_id = unsigned(std::strtol(hex_string.c_str(), nullptr, 16));
 
-        QImage sprite = spritesImage[sprite_id];
-
-        QPoint destPos = QPoint(curX*8, curY*8);
-        QPainter painter(&mapImage);
-        painter.drawImage(destPos, sprite);
-        painter.end();
+        map[curY][curX] = int(sprite_id);
 
         if (curX >= 127) {
             curY += 1;
@@ -71,11 +59,27 @@ QImage Cart::getMapImage() {
         } else {
             curX += 1;
         }
-
     }
+}
+
+QImage Cart::getMapImage() {
+
+    QImage mapImage = QImage(128*8, 64*8, QImage::Format_RGBA8888);
+
+    mapImage.fill(Qt::black);
+
+    for(int y=0;y<64;y++){
+        for(int x=0;x<128;x++){
+            QImage sprite = spritesImage[map[y][x]];
+
+            QPoint destPos = QPoint(x*8, y*8);
+            QPainter painter(&mapImage);
+            painter.drawImage(destPos, sprite);
+            painter.end();
+        }
+    }
+
     return mapImage;
-
-
 }
 
 void Cart::getAllSprites(QImage spritesheet) {
@@ -96,7 +100,6 @@ void Cart::getAllSprites(QImage spritesheet) {
     }
 
     spritesImage = sprites;
-
 }
 
 QImage Cart::getSpritesheetImage() {

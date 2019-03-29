@@ -28,6 +28,7 @@ class Cart {
 
         std::map<std::string, std::string> raw_data;
         std::vector<QImage> spritesImage;
+        int map[64][128];
 
 };
 
