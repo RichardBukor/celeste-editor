@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::saveCart() {
-     qInfo("aa");
+     // make this later
 }
 
 void MainWindow::loadCart() {
@@ -26,7 +26,8 @@ void MainWindow::loadCart() {
 
         QString fileName = fileDialog.selectedFiles().at(0);
 
-        Cart celesteCart = Cart(fileName);
+        //celesteCart = Cart(fileName);
+        celesteCart.loadFile(fileName);
         QImage spritesheet = celesteCart.getSpritesheetImage();
         celesteCart.getAllSprites(spritesheet);
         std::vector<QImage> sprites = celesteCart.spritesImage;

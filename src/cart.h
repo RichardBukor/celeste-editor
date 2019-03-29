@@ -12,11 +12,11 @@
 class Cart {
 
     public:
-        Cart(QString cartPath);
         Cart();
-        QString getFilePath();
-        QImage getSpritesheetImage();
+
+        void loadFile(QString);
         void getAllSprites(QImage);
+        QImage getSpritesheetImage();
         QImage getMapImage();
 
         const std::string delimiters[6] = {"__lua__\n", "__gfx__\n", "__gff__\n", "__map__\n", "__sfx__\n", "__music__\n"};
@@ -28,10 +28,6 @@ class Cart {
 
         std::map<std::string, std::string> raw_data;
         std::vector<QImage> spritesImage;
-
-
-    private:
-        QString filePath;
 
 };
 
