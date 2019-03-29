@@ -82,6 +82,28 @@ QImage Cart::getMapImage() {
     return mapImage;
 }
 
+QImage Cart::getLevelImage(int id){
+    QImage levelImage = QImage(128, 128, QImage::Format_RGBA8888);
+
+    levelImage.fill(Qt::black);
+
+    int start_x=id%8*16;
+    int start_y=int(id/8)*16;
+
+    for(int y=start_y;y<start_y+16;y++){
+        for(int x=start_x;x<start_x+16;x++){
+            QImage sprite = spritesImage[map[y][x]];
+
+            QPoint destPos = QPoint((x-start_x)*8, (y-start_y)*8);
+            QPainter painter(&levelImage);
+            painter.drawImage(destPos, sprite);
+            painter.end();
+        }
+    }
+
+    return levelImage;
+}
+
 void Cart::getAllSprites(QImage spritesheet) {
 
     int curX = 0;

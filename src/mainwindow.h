@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "cart.h"
+#include <QWidget>
+#include <algorithm>
 
 namespace Ui {
     class MainWindow;
@@ -13,6 +15,7 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(QWidget *parent = nullptr);
+        void keyPressEvent(QKeyEvent *);
         ~MainWindow();
 
     public slots:
@@ -22,6 +25,8 @@ class MainWindow : public QMainWindow {
     private:
         Ui::MainWindow *ui;
         Cart celesteCart;
+        int level=0;
+        bool has_loaded=false;
 
 };
 

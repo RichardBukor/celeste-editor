@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow), celesteCart()
@@ -30,12 +31,30 @@ void MainWindow::loadCart() {
         std::vector<QImage> sprites = celesteCart.spritesImage;
 
         QImage map = celesteCart.getMapImage();
+        QImage levelImage = celesteCart.getLevelImage(level);
 
         // testing map image
         QPixmap pixmap = QPixmap();
-        pixmap.convertFromImage(map);
+        pixmap.convertFromImage(levelImage);
         ui->label->setPixmap(pixmap);
 
+        has_loaded=true;
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event){
+    if (has_loaded){
+        if (event->key()==Qt::Key::Key_F){
+            level++;
+        }else if(event->key()==Qt::Key::Key_S){
+            level--;
+        }
+        level=std::max(level,0);
+        level=std::min(level,31);
+        QImage levelImage = celesteCart.getLevelImage(level);
+        QPixmap pixmap = QPixmap();
+        pixmap.convertFromImage(levelImage);
+        ui->label->setPixmap(pixmap);
     }
 }
 

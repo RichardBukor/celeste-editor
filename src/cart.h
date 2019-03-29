@@ -15,9 +15,10 @@ class Cart {
         Cart();
 
         void loadFile(QString);
+        QImage getMapImage();
+        QImage getLevelImage(int);
         void getAllSprites(QImage);
         QImage getSpritesheetImage();
-        QImage getMapImage();
 
         const std::string delimiters[7] = {"__lua__\n", "__gfx__\n", "__label__\n", "__gff__\n", "__map__\n", "__sfx__\n", "__music__\n"};
 
