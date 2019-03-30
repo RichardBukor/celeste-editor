@@ -67,8 +67,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         }else if(event->key()==Qt::Key::Key_S){
             level--;
         }
-        level=std::max(level,0);
-        level=std::min(level,31);
+
+        if (level < 0) {
+            level = 31;
+        }
+
+        level = level % 32;
         QImage levelImage = celesteCart.getLevelImage(level);
         pixmap.convertFromImage(levelImage);
         ui->label->setPixmap(pixmap.scaledToWidth(ui->label->width()));
