@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1223</width>
-    <height>549</height>
+    <width>720</width>
+    <height>720</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>0</width>
+    <height>1</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Celeste Editor</string>
@@ -17,14 +29,17 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>1191</width>
-      <height>511</height>
+      <x>0</x>
+      <y>-1</y>
+      <width>721</width>
+      <height>691</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -33,8 +48,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1223</width>
-     <height>20</height>
+     <width>720</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">

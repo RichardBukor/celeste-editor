@@ -11,6 +11,26 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(loadCart()));
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event){
+    if (has_loaded){
+        int x=0;
+        int y=0;
+        int w=event->size().width();
+        int h=event->size().height();
+        if (w>h-0.75*ui->menuBar->height()){
+            h-=ui->menuBar->height();
+            x=(w-h)/2;
+            w=h;
+            y=0;
+        }else{
+            y=(h-w)/2-ui->menuBar->height();
+            h=w+ui->menuBar->height();
+        }
+        ui->label->setGeometry(x,y,w,h);
+        ui->label->setPixmap(pixmap.scaledToWidth(w));
+    }
+}
+
 void MainWindow::saveCart() {
      // make this later
 }
@@ -33,10 +53,8 @@ void MainWindow::loadCart() {
         QImage map = celesteCart.getMapImage();
         QImage levelImage = celesteCart.getLevelImage(level);
 
-        // testing map image
-        QPixmap pixmap = QPixmap();
         pixmap.convertFromImage(levelImage);
-        ui->label->setPixmap(pixmap);
+        ui->label->setPixmap(pixmap.scaledToWidth(ui->label->width()));
 
         has_loaded=true;
     }
@@ -52,9 +70,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         level=std::max(level,0);
         level=std::min(level,31);
         QImage levelImage = celesteCart.getLevelImage(level);
-        QPixmap pixmap = QPixmap();
         pixmap.convertFromImage(levelImage);
-        ui->label->setPixmap(pixmap);
+        ui->label->setPixmap(pixmap.scaledToWidth(ui->label->width()));
     }
 }
 

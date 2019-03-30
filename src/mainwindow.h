@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "cart.h"
 #include <QWidget>
-#include <algorithm>
 
 namespace Ui {
     class MainWindow;
@@ -15,6 +14,7 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(QWidget *parent = nullptr);
+        void resizeEvent(QResizeEvent *);
         void keyPressEvent(QKeyEvent *);
         ~MainWindow();
 
@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow {
         Cart celesteCart;
         int level=0;
         bool has_loaded=false;
+        QPixmap pixmap = QPixmap();
 
 };
 
