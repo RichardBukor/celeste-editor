@@ -14,8 +14,11 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(QWidget *parent = nullptr);
+        void setImage();
+        void adjust_size(int, int);
         void resizeEvent(QResizeEvent *);
         void keyPressEvent(QKeyEvent *);
+        void mouseMoveEvent(QMouseEvent *);
         ~MainWindow();
 
     public slots:
@@ -28,7 +31,11 @@ class MainWindow : public QMainWindow {
         int level=0;
         bool has_loaded=false;
         QPixmap pixmap = QPixmap();
-
+        QImage grid;
+        bool grid_enabled=true;
+        QImage selected_grid;
+        int selected_grid_spot_x=0;
+        int selected_grid_spot_y=0;
 };
 
 #endif
