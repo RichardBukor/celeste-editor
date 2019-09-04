@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow), celesteCart()
 {
     ui->setupUi(this);
-    //connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveCart()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveCart()));
     connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(loadCart()));
 
     //create grid
@@ -67,10 +67,6 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     }
 }
 
-void MainWindow::saveCart() {
-     // make this later
-}
-
 void MainWindow::loadCart() {
 
     QFileDialog fileDialog(this, (""),
@@ -80,16 +76,22 @@ void MainWindow::loadCart() {
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
 
     if (fileDialog.exec()) {
-
-        QString fileName = fileDialog.selectedFiles().at(0);
-
-        celesteCart.loadFile(fileName);
-
+        QString filename = fileDialog.selectedFiles().at(0);
+        celesteCart.loadFile(filename);
         setImage();
-
         has_loaded=true;
-
         adjust_size(size().width(),size().height());
+    }
+}
+
+void MainWindow::saveCart(){
+    if (has_loaded){
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                   QDir::homePath(),
+                                   tr("Pico-8 Cart (*.p8)"));
+        if (!filename.isEmpty()){
+            celesteCart.saveFile(filename);
+        }
     }
 }
 
@@ -118,8 +120,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 void MainWindow::mouseMoveEvent(QMouseEvent *event){
     if(has_loaded){
         QPoint pos = QCursor::pos();
-        int new_selected_grid_spot_x = 16*(pos.x()-this->x()-ui->label->x())/(ui->label->width());
-        int new_selected_grid_spot_y = 16*(pos.y()-this->y()-ui->label->y())/(ui->label->height())-1;
+        int new_selected_grid_spot_x = (int)16*(pos.x()-this->x()-ui->label->x())/(ui->label->width());
+        int new_selected_grid_spot_y = (int)16*(pos.y()-this->y()-ui->label->y())/(ui->label->height())-1;
         if (new_selected_grid_spot_x != selected_grid_spot_x || new_selected_grid_spot_y != selected_grid_spot_y){
             selected_grid_spot_x=new_selected_grid_spot_x;
             selected_grid_spot_y=new_selected_grid_spot_y;
@@ -127,6 +129,13 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
                 setImage();
             }
         }
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event){
+    if(has_loaded){
+        celesteCart.map[16*(int)(level/8)+selected_grid_spot_y][level%8*16+selected_grid_spot_x]=1;
+        setImage();
     }
 }
 

@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow {
         void resizeEvent(QResizeEvent *);
         void keyPressEvent(QKeyEvent *);
         void mouseMoveEvent(QMouseEvent *);
+        void mousePressEvent(QMouseEvent *);
         ~MainWindow();
 
     public slots:

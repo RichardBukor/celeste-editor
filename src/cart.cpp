@@ -1,4 +1,5 @@
 #include "cart.h"
+#include <QDebug>
 
 Cart::Cart() {}
 
@@ -59,6 +60,79 @@ void Cart::loadFile(QString cartPath) {
         } else {
             curX += 1;
         }
+    }
+}
+
+void Cart::saveFile(QString cartPath){
+    QFile file(cartPath);
+    if (file.open(QIODevice::ReadWrite)){
+        QTextStream out(&file);
+
+        out << "pico-8 cartridge // http://www.pico-8.com" << endl << "version 16" << endl;
+
+        out << "__lua__" << endl;
+        for(unsigned int i = 0;i < raw_data["__lua__"].length(); i++){
+            out << raw_data["__lua__"][i];
+        }
+
+        out << "__gfx__" << endl;
+        for(unsigned int i = 0; i < raw_data["__gfx__"].length(); i++){
+            out << raw_data["__gfx__"][i];
+        }
+        //second half of the map
+        for(unsigned int i = 0; i < 128*32; i++){
+            if (i%64==0 && i>0){
+                out << endl;
+            }
+            int tile = map[32+int(i/128)][i%128];
+            QString hex;
+            hex.setNum(tile, 16);
+            if (hex.length()==1){
+                hex="0"+hex;
+            }
+            QString reverse;
+            reverse.append(hex.at(1));
+            reverse.append(hex.at(0));
+            out << reverse;
+        }
+        out << endl;
+
+        out << "__label__" << endl;
+        for(unsigned int i = 0; i < raw_data["__label__"].length(); i++){
+            out << raw_data["__label__"][i];
+        }
+        out << "__gff__" << endl;
+        for(unsigned int i = 0; i < raw_data["__gff__"].length(); i++){
+            out << raw_data["__gff__"][i];
+        }
+
+        //first half of the map
+        out << "__map__" << endl;
+        for(unsigned int i = 0;i < 128*32; i++){
+            if (i%128==0 && i>0){
+                out << endl;
+            }
+            int tile = map[int(i/128)][i%128];
+            QString hex;
+            hex.setNum(tile, 16);
+            if (hex.length()==1){
+                hex="0"+hex;
+            }
+            out << hex;
+        }
+        out << endl;
+
+        out << "__sfx__" << endl;
+        for(unsigned int i = 0; i < raw_data["__sfx__"].length(); i++){
+            out << raw_data["__sfx__"][i];
+        }
+        out << "__music__" << endl;
+        for(unsigned int i = 0; i < raw_data["__music__"].length(); i++){
+            out << raw_data["__music__"][i];
+        }
+
+
+        file.close();
     }
 }
 

@@ -5,6 +5,7 @@
 #include <cmath>
 #include "qpainter.h"
 #include <algorithm>
+#include <QTextStream>
 #ifndef CART_H
 #define CART_H
 
@@ -15,6 +16,7 @@ class Cart {
         Cart();
 
         void loadFile(QString);
+        void saveFile(QString);
         QImage getMapImage();
         QImage getLevelImage(int);
         void getAllSprites(QImage);
@@ -29,8 +31,7 @@ class Cart {
 
         std::map<std::string, std::string> raw_data;
         std::vector<QImage> spritesImage;
-        int map[64][128];
-
+        int map[64][128]; //map[y][x]
 };
 
 #endif
