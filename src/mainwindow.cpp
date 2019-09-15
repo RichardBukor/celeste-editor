@@ -29,7 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
             }
         }
     }
-
+    ui->label->setMouseTracking(true);
+    ui->centralWidget->setMouseTracking(true);
     this->setMouseTracking(true);
 }
 
@@ -59,6 +60,7 @@ void MainWindow::adjust_size(int w, int h){
     }
     ui->label->setGeometry(x,y,w,h);
     ui->label->setPixmap(pixmap.scaledToWidth(w));
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event){
